@@ -1,6 +1,6 @@
 require('dotenv').config();
 var fs = require('fs');
-var spotify = require('spotify');
+var Spotify = require('node-spotify-api');
 var request = require('request');
 var command = process.argv[2];
 var userInput = process.argv.splice(3);
@@ -86,10 +86,9 @@ function concertThis() {
 function movieThis() {
     request('http://www.omdbapi.com/?t=' + (userInput || "Mr. Nobody") + "&trilogy", function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            //parses through the data received
+
             var movieData = JSON.parse(body);
 
-            //logs all the needed info to terminal
             console.log("-----MOVIE INFO-----")
             console.log("Title: " + movieData.Title);
             console.log("Year: " + movieData.Year);
@@ -110,7 +109,7 @@ function movieThis() {
 };
 
 function doWhatItSays() {
-    //access random.txt and reads data inside the file
+
     fs.readFile("random.txt", "utf8", function (error, data) {
 
 
@@ -120,7 +119,7 @@ function doWhatItSays() {
 
         userInput = dataArr[1];
 
-        //decides which function to run based on text file
+
         switch (dataArr[0].trim()) {
 
             case "spotify-this-song":
@@ -140,10 +139,10 @@ function doWhatItSays() {
     });
 };
 
-//appends every node command in log.txt
+
 function log(data) {
     fs.appendFile("log.txt", command + " " + userInput + "" + '\n', function (err) {
-        //in case of an error: 
+
         if (err) {
             console.log("Error occured", err);
         }
